@@ -1,10 +1,8 @@
 <template>
 	<div class="admin-container">
 		<div class="admin-header">
-			<router-link to="/admin/currencies"
-				:class="{ active: $route.path === '/admin/currencies' }">Валюты</router-link>
-			<router-link to="/admin/exchange" :class="{ active: $route.path === '/admin/exchange' }">Курсы
-				валют</router-link>
+			<router-link to="/admin/currencies">Валюты</router-link>
+			<router-link to="/admin/exchange">Курсы валют</router-link>
 		</div>
 		<router-view></router-view>
 	</div>
@@ -13,10 +11,7 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'AdminView'
-};
+<script setup lang="ts">
 </script>
 
 <style scoped>

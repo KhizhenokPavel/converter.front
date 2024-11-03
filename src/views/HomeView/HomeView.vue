@@ -1,3 +1,40 @@
+<script setup lang="ts">
+import converterService from '@/apiServices/converter.service';
+import currenciesService from '@/apiServices/currencies.service';
+import { ref, onMounted } from 'vue';
+
+const currencies = ref([]);
+const fromCurrency = ref('');
+const toCurrency = ref('');
+const amount = ref(0);
+const result = ref('');
+
+const getAvailableCurrencies = async () => {
+    try {
+        const response = await currenciesService.getAvailableCurrencies();
+        currencies.value = response.data;
+        fromCurrency.value = currencies.value[0];
+        toCurrency.value = currencies.value[1];
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+};
+
+const convert = async () => {
+    try {
+        const response = await converterService.convert(amount.value, fromCurrency.value, toCurrency.value);
+        result.value = response.data;
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+};
+
+onMounted(() => {
+    getAvailableCurrencies();
+});
+</script>
+
+
 <template>
     <div class="container">
         <h1>Currency Converter</h1>
@@ -13,75 +50,37 @@
             <div id="result">{{ result }}</div>
         </div>
     </div>
-	<div class="admin-header">
-		<router-link to="/admin/exchange">Админка</router-link>
-	</div>
+    <div class="admin-header">
+        <router-link to="/admin/exchange">Админка</router-link>
+    </div>
 </template>
-
-<script>
-import converterService from '@/apiServices/converter.service';
-import currenciesService from '@/apiServices/currencies.service';
-
-export default {
-    data() {
-        return {
-            currencies: [],
-            fromCurrency: '',
-            toCurrency: '',
-            amount: 0,
-            result: ''
-        };
-    },
-    created() {
-        this.getAvailableCurrencies();
-    },
-    methods: {
-        async getAvailableCurrencies() {
-            currenciesService.getAvailableCurrencies().then((response) => {
-                this.currencies = response.data;
-                this.fromCurrency = this.currencies[0];
-                this.toCurrency = this.currencies[1];
-            }).catch((error) => {
-                console.error('Ошибка:', error);
-            });
-        },
-        async convert() {
-            converterService.convert(this.amount, this.fromCurrency, this.toCurrency).then((response) => {
-                this.result = response.data;
-            }).catch((error) => {
-                console.error('Ошибка:', error);
-            });
-        }
-    }
-};
-</script>
 
 <style scoped>
 .admin-header {
-	position: absolute;
-	top: 20px;
-	right: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 .admin-header a {
-	margin: 0;
-	padding: 10px 20px;
-	border: 1px solid #007bff;
-	border-right: none;
-	border-radius: 4px 0 0 4px;
-	background-color: #007bff;
-	color: #fff;
-	cursor: pointer;
-	text-decoration: none;
+    margin: 0;
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .admin-header a:last-child {
-	border-right: 1px solid #007bff;
-	border-radius: 0 4px 4px 0;
+    border-right: 1px solid #007bff;
+    border-radius: 0 4px 4px 0;
 }
 
 .admin-header a:hover {
-	background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 .container {

@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from "@/views/HomeView/HomeView.vue";
-import CatalogView from "@/views/AdminView/AdminView.vue";
+import AdminView from "@/views/AdminView/AdminView.vue";
 import CurrenciesView from '@/views/CurrenciesView/CurrenciesView.vue';
 import ExchangeRatesView from '@/views/ExchangeRatesView/ExchangeRatesView.vue';
+import HomeView from '@/views/HomeView/HomeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +13,7 @@ const router = createRouter({
     },
     {
       path: '/admin',
-      component: CatalogView,
+      component: AdminView,
       children: [
         {
           path: 'currencies',

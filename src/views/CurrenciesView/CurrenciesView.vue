@@ -1,3 +1,50 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import currenciesService from '@/apiServices/currencies.service';
+
+const currencies = ref<string[]>([]);
+const newCurrency = ref<string>('');
+const message = ref<string>('');
+
+const getAvailableCurrencies = async () => {
+    try {
+        const response = await currenciesService.getAvailableCurrencies();
+        currencies.value = response.data;
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+};
+
+const addCurrency = async () => {
+    if (newCurrency.value && !currencies.value.includes(newCurrency.value)) {
+        try {
+            const response = await currenciesService.addAvailableCurrency(newCurrency.value);
+            message.value = response.data;
+            currencies.value.push(newCurrency.value);
+            newCurrency.value = '';
+        } catch (error) {
+            message.value = 'Ошибка добавления валюты';
+        }
+    } else {
+        message.value = 'Ошибка добавления валюты';
+    }
+};
+
+const deleteCurrency = async (currency: string) => {
+    try {
+        const response = await currenciesService.removeAvailableCurrency(currency);
+        message.value = response.data;
+        currencies.value = currencies.value.filter((cur) => cur !== currency);
+    } catch (error) {
+        message.value = 'Ошибка удаления валюты';
+    }
+};
+
+onMounted(() => {
+    getAvailableCurrencies();
+});
+</script>
+
 <template>
     <div>
         <h2>Валюты</h2>
@@ -20,54 +67,6 @@
         </table>
     </div>
 </template>
-
-<script>
-import currenciesService from '@/apiServices/currencies.service';
-
-export default {
-    data() {
-        return {
-            currencies: [],
-            newCurrency: '',
-            message: ''
-        };
-    },
-    created() {
-        this.getAvailableCurrencies();
-    },
-    methods: {
-        async getAvailableCurrencies() {
-            currenciesService.getAvailableCurrencies().then((response) => {
-                this.currencies = response.data;
-                this.fromCurrency = this.currencies[0];
-                this.toCurrency = this.currencies[1];
-            }).catch((error) => {
-                console.error('Ошибка:', error);
-            });
-        },
-        async addCurrency() {
-            if (this.newCurrency && !this.currencies.includes(this.newCurrency)) {
-                currenciesService.addAvailableCurrency(this.newCurrency).then((response) => {
-                    this.message = response.data;
-                    this.currencies.push(this.newCurrency);
-                }).catch((error) => {
-                    this.message = 'Ошибка добавления валюты';
-                });
-            } else {
-                this.message = 'Ошибка добавления валюты';
-            }
-        },
-        deleteCurrency(currency) {
-            currenciesService.removeAvailableCurrency(currency).then((response) => {
-                this.message = response.data;
-                this.currencies.pop(currency);
-            }).catch((error) => {
-                this.message = 'Ошибка удаления валюты';
-            });
-        }
-    }
-};
-</script>
 
 <style scoped>
 .message-block {
