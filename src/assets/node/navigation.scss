@@ -1,0 +1,52 @@
+@import "node_modules/swiper/modules/navigation";
+@import "@/assets/mixins";
+
+:root {
+	--swiper-navigation-size: 52px;
+	--swiper-arrow-size: 20px;
+	--swiper-navigation-sides-offset: 24px
+}
+.swiper-button-prev,
+.swiper-button-next {
+	border-radius: calc(var(--swiper-navigation-size) / 2);
+	border: 1px var(--vt-c-grey) solid;
+	top: var(--swiper-navigation-top-offset, 50%);
+	width: var(--swiper-navigation-size);
+	height: var(--swiper-navigation-size);
+	color: var(--vt-c-grey, var(--swiper-theme-color));
+	display: none;
+
+	@include adaptive {
+		display: flex;
+	}
+}
+.swiper-button-black .swiper-button-prev,
+.swiper-button-black .swiper-button-next {
+	top: calc(var(--swiper-navigation-top-offset, 50%) - 20px);
+	color: var(--vt-c-black, var(--swiper-theme-color));
+	border: 1px var(--vt-c-black) solid;
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+	display: none;
+}
+.swiper-button-prev,
+.swiper-rtl .swiper-button-next {
+	left: var(--swiper-navigation-sides-offset, 24px);
+}
+.swiper-button-next,
+.swiper-rtl .swiper-button-prev {
+	right: var(--swiper-navigation-sides-offset, 24px);
+}
+.swiper-button-black .swiper-button-prev,
+.swiper-button-black .swiper-rtl .swiper-button-next {
+	left: 0;
+}
+.swiper-button-black .swiper-button-next,
+.swiper-button-black .swiper-rtl .swiper-button-prev {
+	right: 0;
+}
+.swiper-button-prev:after,
+.swiper-button-next:after {
+	font-size: var(--swiper-arrow-size);
+}

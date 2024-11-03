@@ -1,0 +1,60 @@
+:root {
+  --vt-c-white: #f6f6f6;
+  --vt-c-dark-blue: #091d9e;
+  --vt-c-violet: #750dc5;
+  --vt-c-black: #0c0c0c;
+  --vt-c-grey: #c1c1c1;
+  --vt-c-light-blue: #bcc5ff;
+  --vt-c-dark-grey: #ababab;
+  --vt-c-more-dark-grey: #454545;
+  --vt-c-yellow: #ebba1a;
+  --vt-c-green: #169b00;
+  --vt-c-red: #ff0000;
+
+  --vt-c-not-active: #505050;
+  --vt-c-field: #dedede;
+
+  // sizes
+  --main-content-padding: 16px;
+}
+
+:root {
+  --color-text: var(--vt-c-more-dark-grey);
+  --color-background: var(--vt-c-white);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "DisketMono";
+  src: url('@/assets/fonts/DisketMono/Disket-Mono-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url('@/assets/fonts/Roboto/Roboto-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.5;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
